@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BFRB Tracker</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="events_today">Events Today</string>
+    <string name="weekly_trend">Weekly Trend</string>
+    <string name="add_feeling">How are you feeling?</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_events_yet">No events recorded yet</string>
+</resources>

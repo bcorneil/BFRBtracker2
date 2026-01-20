@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BFRB Tracker</string>
+    <string name="detection_active">Detection Active</string>
+    <string name="detection_inactive">Detection Inactive</string>
+    <string name="movement_detected">Movement Detected</string>
+    <string name="was_this_bfrb">Was this the repetitive behavior?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="start_detection">Start Detection</string>
+    <string name="stop_detection">Stop Detection</string>
+</resources>
