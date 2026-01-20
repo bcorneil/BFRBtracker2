@@ -22,15 +22,16 @@ class MovementDetectionService : Service(), SensorEventListener {
     private var gyroscope: Sensor? = null
     private lateinit var vibrator: Vibrator
 
-    // Movement detection parameters
-    private val movementThreshold = 15.0f // Adjust based on testing
-    private val gyroThreshold = 2.0f // Radians per second
-    private val detectionWindow = 500L // milliseconds
+    // Movement detection parameters - tuned to reduce false positives
+    private val movementThreshold = 25.0f // Higher = less sensitive (was 15.0f)
+    private val gyroThreshold = 4.0f // Higher = less sensitive to rotation (was 2.0f)
+    private val detectionWindow = 2000L // Wait 2 seconds between detections (was 500ms)
     private var lastDetectionTime = 0L
 
-    // For pattern detection
+    // For pattern detection - require more data before triggering
     private val accelerometerReadings = mutableListOf<FloatArray>()
-    private val maxReadings = 50 // Keep last 50 readings (about 1 second at ~50Hz)
+    private val maxReadings = 100 // Keep last 100 readings (~2 seconds at 50Hz)
+    private val minReadingsRequired = 30 // Need at least 30 readings before detecting
 
     companion object {
         private const val TAG = "MovementDetection"
@@ -134,13 +135,14 @@ class MovementDetectionService : Service(), SensorEventListener {
             return
         }
 
-        // Simple pattern detection: Check if we have enough readings
-        if (accelerometerReadings.size >= 10) {
+        // Require sufficient data before detecting - need at least 30 readings (~0.6 seconds)
+        if (accelerometerReadings.size >= minReadingsRequired) {
             // Calculate variance to detect repetitive motion
             val variance = calculateVariance()
 
-            // If variance is low, it suggests repetitive motion
-            if (variance < 5.0f) { // Adjust threshold based on testing
+            // Lower variance = more repetitive motion
+            // Increased threshold to reduce false positives (was 5.0f)
+            if (variance < 8.0f) {
                 lastDetectionTime = currentTime
                 onMovementDetected()
             }
